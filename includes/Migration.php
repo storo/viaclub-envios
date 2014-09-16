@@ -9,7 +9,7 @@ class Migration {
 
     function create(){
         return $this->db->query("CREATE TABLE IF NOT EXISTS vce_events (
-                                 ID INT NOT NULL,
+                                 ID INT NOT NULL AUTO_INCREMENT,
                                  send_date DATETIME NULL,
                                  client_id INT NULL,
                                  user_name VARCHAR(255) NULL,
