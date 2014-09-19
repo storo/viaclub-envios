@@ -14,7 +14,7 @@ class ExportXLS {
     }
 
     private function setTableHeaders(){
-        $this->output .= "id,fecha de Envio,Cliente,Nombre Usuario,Email Usuario,Nombre Destinatario,Email Destinatario,Programa\n";
+        $this->output .= "id,fecha de Envío,Cliente,Nombre Usuario,Email Usuario,Nombre Destinatario,Email Destinatario,Programa\n";
     }
 
     private function setTableBody(){
@@ -46,13 +46,13 @@ class ExportXLS {
     }
 
     function export(){
-        header("Content-type: application/vnd.ms-excel");
+        header("Content-type: application/vnd.ms-excel; charset=UTF-8");
         header("Content-disposition: csv" . date("Y-m-d") . ".csv");
         header("Content-disposition: attachment;filename=".$this->fileName.".csv");
         $this->setTableHeaders();
         $this->setTableBody();
         ob_clean();
-        print $this->output;
+        print utf8_decode($this->output);
         exit();
     }
 }
