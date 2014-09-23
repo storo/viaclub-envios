@@ -8,6 +8,7 @@ class Installer {
     }
 
     function install(){
+
         $this->createDB();
         $this->createOptions();
     }
@@ -18,13 +19,13 @@ class Installer {
     }
 
     private function createOptions(){
-        echo add_option('vce_page_form', '', '', 'yes');
-        echo add_option('vce_valid_post_type', '{}', '', 'yes');
-        echo add_option('vce_mail_from', 'contacto@vce.cl', '', 'yes');
-        echo add_option('vce_mail_bbc', '', '', 'yes');
-        echo add_option('vce_mail_subject', '', '', 'yes');
-        echo add_option('vce_mail_text_message', '', '', 'yes');
-        echo add_option('vce_mail_html_message', '', '', 'yes');
+        update_option('vce_page_form', '18');
+        update_option('vce_valid_post_type', '{}');
+        update_option('vce_mail_from', 'contacto@vce.cl');
+        update_option('vce_mail_bbc', '');
+        update_option('vce_mail_subject', '');
+        update_option('vce_mail_text_message','');
+        update_option('vce_mail_html_message', '');
     }
 
     private function deleteOptions(){

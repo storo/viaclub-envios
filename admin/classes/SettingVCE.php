@@ -39,19 +39,14 @@ class SettingsVCE {
             $this->post_types_selected = array();
         }
 
-        if(get_option('vce_page_form')){
-            $this->page = get_option('vce_page_form');
-        }
+        $this->page = get_option('vce_page_form', '');
 
-        if(get_option('vce_mail_from') && get_option('vce_mail_bbc') && get_option('vce_mail_subject') && get_option('vce_mail_text_message') && get_option('vce_mail_html_message')){
-            $this->message['vce_mail_from'] = get_option('vce_mail_from');
-            $this->message['vce_mail_bbc'] = get_option('vce_mail_bbc');
-            $this->message['vce_mail_subject'] = get_option('vce_mail_subject');
-            $this->message['vce_mail_text_message'] = get_option('vce_mail_text_message');
-            $this->message['vce_mail_html_message'] = get_option('vce_mail_html_message');
-        }else{
-            echo "no active";
-        }
+        $this->message['vce_mail_from'] = get_option('vce_mail_from');
+        $this->message['vce_mail_bbc'] = get_option('vce_mail_bbc');
+        $this->message['vce_mail_subject'] = get_option('vce_mail_subject');
+        $this->message['vce_mail_text_message'] = get_option('vce_mail_text_message');
+        $this->message['vce_mail_html_message'] = get_option('vce_mail_html_message');
+
     }
 
     function getMessageValues(){
