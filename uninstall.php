@@ -4,7 +4,7 @@ if (!defined( 'WP_UNINSTALL_PLUGIN' )){
     exit();
 }
 
-require_once 'includes/Migration.php';
+require_once 'includes/Installer.php';
 
-$db = new Migration();
-$db->delete();
+$installerVCE = new Installer();
+$installerVCE->uninstall();

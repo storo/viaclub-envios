@@ -11,7 +11,7 @@ ob_start();
  */
 
 require_once 'includes/constants.php';
-require_once 'includes/Migration.php';
+require_once 'includes/Installer.php';
 
 register_activation_hook(__FILE__, 'vce_activation');
 
@@ -39,6 +39,6 @@ function vce_export(){
 }
 
 function vce_activation(){
-    $db = new Migration();
-    $db->create();
+    $installerVCE = new Installer();
+    $installerVCE->install();
 }
