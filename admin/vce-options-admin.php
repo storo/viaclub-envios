@@ -6,13 +6,29 @@ if (!current_user_can('manage_options')) {
 require_once('classes/SettingVCE.php');
 
 $setting = new SettingsVCE();
+$show_message = array();
+if(isset($_POST['save-config'])){
+
+    $show_message[] = $setting->savePage();
+    $show_message[] = $setting->savePostType();
+    $show_message[] = $setting->saveMessage();
+    $setting->reload();
+}
 $message = $setting->getMessageValues();
 
 ?>
 <div class="wrap">
-    <h2></h2>
+    <?php
+        if(in_array(false, $show_message)){
+    ?>
+    <div id="message" class="updated"><p>Configuraci&oacute;n <strong>correctamente salvada</strong>.</p></div>
+    <?php
+        }
+    ?>
     <form method="POST" action="">
         <h3>Configuraci&oacute;n Frontend</h3>
+        <p>Es necesario seleccionar un <strong>page</strong> donde se debe agregar el formulario:</p>
+
         <table class="form-table">
             <tr valign="top">
                 <th scope="row">
@@ -29,6 +45,7 @@ $message = $setting->getMessageValues();
             <?php echo $setting->getPostTypeWithFormatHtml('li');?>
         </ul>
         <h3>Configuraci&oacute;n Email</h3>
+        <p>Formato para el env&iacute;o de correo</p>
         <table class="form-table">
             <tr valign="top">
                 <th scope="row">
@@ -71,6 +88,7 @@ $message = $setting->getMessageValues();
                 </td>
             </tr>
         </table>
+        <input type="hidden" name="save-config" value="true" />
         <button  id="submit" class="button button-primary">Guardar Configuraci&oacute;n </button>
     </form>
 </div>

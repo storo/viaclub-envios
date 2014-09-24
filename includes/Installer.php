@@ -19,9 +19,9 @@ class Installer {
     }
 
     private function createOptions(){
-        update_option('vce_page_form', '18');
+        update_option('vce_page_form', '');
         update_option('vce_valid_post_type', '{}');
-        update_option('vce_mail_from', 'contacto@vce.cl');
+        update_option('vce_mail_from', 'contacto@viaclub.cl');
         update_option('vce_mail_bbc', '');
         update_option('vce_mail_subject', '');
         update_option('vce_mail_text_message','');

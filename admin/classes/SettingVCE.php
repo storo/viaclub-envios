@@ -7,6 +7,14 @@ class SettingsVCE {
     private $message = array();
 
     function __construct(){
+        $this->load();
+    }
+
+    function reload(){
+        $this->load();
+    }
+
+    private function load(){
         $this->args_post_type = array(
             'public'                => true,
             'exclude_from_search'   => false,
@@ -34,7 +42,7 @@ class SettingsVCE {
         $this->pages = get_pages($this->args_pages);
 
         if(get_option('vce_valid_post_type') && get_option('vce_valid_post_type') != '{}'){
-            $this->post_types_selected = json_decode(get_option('vce_valid_post_type'));
+            $this->post_types_selected = json_decode(get_option('vce_valid_post_type'), true);
         }else{
             $this->post_types_selected = array();
         }
@@ -46,14 +54,13 @@ class SettingsVCE {
         $this->message['vce_mail_subject'] = get_option('vce_mail_subject');
         $this->message['vce_mail_text_message'] = get_option('vce_mail_text_message');
         $this->message['vce_mail_html_message'] = get_option('vce_mail_html_message');
-
     }
 
     function getMessageValues(){
         return $this->message;
     }
 
-    function getPages($name = 'vce-pages', $text_blank = 'Seleccione p&aacute;gina'){
+    function getPages($text_blank = 'Seleccione p&aacute;gina'){
         $select = '<option value="">'.$text_blank.'</option>';
         foreach($this->pages as $page){
             if(!empty($page->post_title)){
@@ -62,25 +69,47 @@ class SettingsVCE {
                 $select .= $page->post_title.'</option>';
             }
         }
-        return '<select name="'.$name.'">'.$select.'</select>';
+        return '<select name="'.$this->page_select_name.'">'.$select.'</select>';
     }
 
-    function savePage($page){
-        return update_option('vce_page_form', $page);
-    }
-
-    function savePostType($array_types){
-        $json_post_types = "";
-        for($i=0; $i<count($array_types);$i++){
-            $json_post_types .= '"'.$i.'":"'.$array_types[$i].'"'.(($i == count($array_types)-1)? "" :",");
+    function savePage(){
+        $return = false;
+        if(isset($_POST['vce-pages'])){
+            $return = update_option('vce_page_form', $_POST['vce-pages']);
         }
-        return update_option('vce_valid_post_type', "{".$json_post_types."}");
+        return $return;
+    }
+
+    function savePostType(){
+        $return = false;
+        if(isset($_POST['vce-post-type'])){
+
+            $array_types = $_POST['vce-post-type'];
+            $json_post_types = "";
+
+            for($i=0; $i<count($array_types);$i++){
+                $json_post_types .= '"'.$i.'":"'.$array_types[$i].'"'.(($i == count($array_types)-1)? "" :",");
+            }
+            $return = update_option('vce_valid_post_type', "{".$json_post_types."}");
+        }
+        return $return;
+    }
+
+    function saveMessage(){
+        $return = array();
+        if(isset($_POST['message'])){
+            $messages = $_POST['message'];
+            foreach($messages as $key => $value){
+                $return[] = update_option($key, $value);
+            }
+        }
+        return (in_array(false, $return))? false : true ;
     }
 
     function getPostTypeWithFormatHtml($element){
         foreach ( $this->post_types as $post_type ) {
             $this->post_types_html .= '<'.$element.'>';
-            $this->post_types_html .= '<input type="checkbox" name="vce-post-type" value="'.$post_type.'" ';
+            $this->post_types_html .= '<input type="checkbox" name="vce-post-type[]" value="'.$post_type.'" ';
             $this->post_types_html .= $this->selectedPostType($post_type).' />';
             $this->post_types_html .= $post_type.'</'.$element.'>';
         }
@@ -94,7 +123,5 @@ class SettingsVCE {
     private function selectedPostType($type){
         return (in_array($type,$this->post_types_selected))? 'checked':'';
     }
-
-
 
 }
