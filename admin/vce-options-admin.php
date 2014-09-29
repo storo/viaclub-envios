@@ -9,7 +9,6 @@ $setting = new SettingsVCE();
 $show_message = array();
 if(isset($_POST['save-config'])){
 
-    $show_message[] = $setting->savePage();
     $show_message[] = $setting->savePostType();
     $show_message[] = $setting->saveMessage();
     $setting->reload();
@@ -26,19 +25,6 @@ $message = $setting->getMessageValues();
         }
     ?>
     <form method="POST" action="">
-        <h3>Configuraci&oacute;n Frontend</h3>
-        <p>Es necesario seleccionar un <strong>page</strong> donde se debe agregar el formulario:</p>
-
-        <table class="form-table">
-            <tr valign="top">
-                <th scope="row">
-                    <label for="num_elements">P&aacute;gina Formulario de Env&iacute;o: </label>
-                </th>
-                <td>
-                    <?php echo $setting->getPages(); ?>
-                </td>
-            </tr>
-        </table>
         <h3>Post types</h3>
         <p>Seleccionar <strong>Post types</strong> que est&eacute;n habilitados para el Env&iacute;o.</p>
         <ul>

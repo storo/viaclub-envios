@@ -43,6 +43,9 @@ function vce_activation(){
     $installerVCE->install();
 }
 
+function vce_form_envio(){
+    return "hola";
+}
 /*
     // Retrieve The Post's Author ID
     $user_id = get_the_author_meta('ID');

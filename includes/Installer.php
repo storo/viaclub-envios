@@ -19,7 +19,6 @@ class Installer {
     }
 
     private function createOptions(){
-        update_option('vce_page_form', '');
         update_option('vce_valid_post_type', '{}');
         update_option('vce_mail_from', 'contacto@viaclub.cl');
         update_option('vce_mail_bbc', '');
@@ -29,7 +28,6 @@ class Installer {
     }
 
     private function deleteOptions(){
-        delete_option('vce_page_form');
         delete_option('vce_valid_post_type');
         delete_option('vce_mail_from');
         delete_option('vce_mail_bbc');

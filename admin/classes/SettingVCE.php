@@ -3,7 +3,6 @@
 class SettingsVCE {
     private $post_types_selected;
     private $post_types_html;
-    private $page;
     private $message = array();
 
     function __construct(){
@@ -39,15 +38,12 @@ class SettingsVCE {
             'post_type' => 'page',
             'post_status' => 'publish'
         );
-        $this->pages = get_pages($this->args_pages);
 
         if(get_option('vce_valid_post_type') && get_option('vce_valid_post_type') != '{}'){
             $this->post_types_selected = json_decode(get_option('vce_valid_post_type'), true);
         }else{
             $this->post_types_selected = array();
         }
-
-        $this->page = get_option('vce_page_form', '');
 
         $this->message['vce_mail_from'] = get_option('vce_mail_from');
         $this->message['vce_mail_bbc'] = get_option('vce_mail_bbc');
@@ -58,26 +54,6 @@ class SettingsVCE {
 
     function getMessageValues(){
         return $this->message;
-    }
-
-    function getPages($text_blank = 'Seleccione p&aacute;gina'){
-        $select = '<option value="">'.$text_blank.'</option>';
-        foreach($this->pages as $page){
-            if(!empty($page->post_title)){
-                $select .= '<option value="'.$page->ID.'" ';
-                $select .= $this->selectedPage($page->ID).'>';
-                $select .= $page->post_title.'</option>';
-            }
-        }
-        return '<select name="'.$this->page_select_name.'">'.$select.'</select>';
-    }
-
-    function savePage(){
-        $return = false;
-        if(isset($_POST['vce-pages'])){
-            $return = update_option('vce_page_form', $_POST['vce-pages']);
-        }
-        return $return;
     }
 
     function savePostType(){
@@ -114,10 +90,6 @@ class SettingsVCE {
             $this->post_types_html .= $post_type.'</'.$element.'>';
         }
         return $this->post_types_html;
-    }
-
-    private function selectedPage($page){
-        return ($this->page == $page)? 'selected="selected"':'';
     }
 
     private function selectedPostType($type){
