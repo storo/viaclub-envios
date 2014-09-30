@@ -45,6 +45,7 @@ class Installer {
                                  user_email VARCHAR(255) NULL,
                                  recipient_name VARCHAR(255) NULL,
                                  recipient_email VARCHAR(255) NULL,
+                                 message TEXT NULL,
                                  post_id INT NULL,
                                  PRIMARY KEY (ID))");
     }

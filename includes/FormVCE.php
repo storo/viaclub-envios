@@ -59,7 +59,7 @@ class FormVCE {
                             'user_email': userEmail<?php echo '_'.$this->post ?>.val(),
                             'receive_name': receiveName<?php echo '_'.$this->post ?>.val(),
                             'receive_email': receiveEmail<?php echo '_'.$this->post ?>.val(),
-                            'message': message.val()
+                            'message': message<?php echo '_'.$this->post ?>.val()
                         };
 
                         $.post(ajaxurl, data, function(response) {
@@ -133,4 +133,4 @@ class FormVCE {
         </script>
     <?php
     }
-} 
+}

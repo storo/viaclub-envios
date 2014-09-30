@@ -13,6 +13,7 @@ ob_start();
 require_once 'includes/constants.php';
 require_once 'includes/Installer.php';
 require_once 'includes/FormVCE.php';
+require_once 'includes/SendVCE.php';
 
 register_activation_hook(__FILE__, 'vce_activation');
 
@@ -45,13 +46,21 @@ function vce_activation(){
     $installerVCE->install();
 }
 
-function vce_form_send(){
-    $form = new FormVCE(1);
+function vce_form_send($postID){
+    $form = new FormVCE($postID);
     return $form->get();
 }
 
 function vce_ajax_send(){
-    echo true;
+    $send = new SendVCE();
+
+    echo $send->save($_POST['post_id'],
+                    $_POST['user_name'],
+                    $_POST['user_email'],
+                    $_POST['receive_name'],
+                    $_POST['receive_email'],
+                    $_POST['message'],
+                    get_current_user_id());
     die();
 }
 
