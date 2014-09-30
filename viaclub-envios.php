@@ -12,6 +12,7 @@ ob_start();
 
 require_once 'includes/constants.php';
 require_once 'includes/Installer.php';
+require_once 'includes/FormVCE.php';
 
 register_activation_hook(__FILE__, 'vce_activation');
 
@@ -25,6 +26,7 @@ function vce_menu(){
 }
 
 add_action('admin_menu','vce_menu');
+add_action('wp_ajax_vce_send', 'vce_ajax_send');
 
 function vce_options(){
     include(VCE_OPTIONS_ADMIN);
@@ -43,9 +45,16 @@ function vce_activation(){
     $installerVCE->install();
 }
 
-function vce_form_envio(){
-    return "hola";
+function vce_form_send(){
+    $form = new FormVCE(1);
+    return $form->get();
 }
+
+function vce_ajax_send(){
+    echo true;
+    die();
+}
+
 /*
     // Retrieve The Post's Author ID
     $user_id = get_the_author_meta('ID');
