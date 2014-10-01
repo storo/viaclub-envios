@@ -24,20 +24,53 @@ class SendVCE {
             "post_id" => $post
         ));
         $this->db->insert_id;
+        $sent = false;
+        if($insert != false){
+            $pdf = $this->createPDF($post, $client);
+            $from = $uname." <$uemail>";
+            $to = $rname." <$remail>";
 
-
-        return ($insert == false)? false : true;
+            $sent = $this->sendEmail($from, $to, "", $message, $pdf);
+        }
+        return $sent;
+    }
+    private function checkDir(){
+        if(!is_dir(WP_CONTENT_DIR.'/envios')){
+            return mkdir(WP_CONTENT_DIR.'/envios', 0777);
+        }else{
+            return true;
+        }
     }
 
-    private function createPDF(){
-
+    private function createDir($path){
+        if(is_dir($path)){
+            return true;
+        }else{
+            return mkdir($path, 0777, true);
+        }
     }
 
-    private function sendEmail(){
+    private function createPDF($post, $client){
+        $pdf = "";
+        if($this->checkDir()){
+            if($this->createDir(WP_CONTENT_DIR."/envios/$post/$client")){
+                $e = get_post_custom($post);
+                if (array_key_exists('wpcf-ficha-pdf', $e)){
+                    $pdf = $this->urlToPathPDF($e['wpcf-ficha-pdf'][0]);
+                }
+            }
+        }
+        return $pdf;
+    }
 
-        $attachments = array(WP_CONTENT_DIR . '/uploads/file_to_attach.zip');
-        $headers = 'From: My Name <myname@mydomain.com>' . "\r\n";
-        wp_mail('test@test.com', 'subject', 'message', $headers, $attachments);
-        return true;
+    private function urlToPathPDF($url){
+        $url_parts = explode("wp-content/", $url);
+        return WP_CONTENT_DIR.'/'.$url_parts[1];
+    }
+
+    private function sendEmail($from, $to, $subject, $message, $attachment){
+        $attachments = array($attachment);
+        $headers = 'From: '.$from."\r\n";
+        return wp_mail($to, $subject, $message, $headers, $attachments);
     }
 }

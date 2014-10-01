@@ -21,7 +21,7 @@ function vce_menu(){
     global $submenu;
     add_menu_page('ViaClub Envíos', 'ViaClub Envíos', 'manage_options','vce-list', 'vce_list', 'dashicons-email', 6);
     add_submenu_page( 'vce-list', 'Exportar', 'Exportar', 'manage_options', 'vce-export', 'vce_export' );
-    add_submenu_page( 'vce-list', 'Configuración', 'Configuración', 'manage_options', 'vce-options', 'vce_options' );
+    //add_submenu_page( 'vce-list', 'Configuración', 'Configuración', 'manage_options', 'vce-options', 'vce_options' );
     # hack change name for auto first sub-menu
     $submenu['vce-list'][0][0] = 'Listado de Envíos';
 }
